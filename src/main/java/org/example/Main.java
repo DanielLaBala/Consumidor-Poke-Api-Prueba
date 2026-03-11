@@ -1,7 +1,6 @@
 package org.example;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,9 +50,9 @@ public class Main {
         StringBuilder respuesta = new StringBuilder();
 
         try(BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-            while (br.ready()) {
-                String linea = br.readLine();
+            String linea;
 
+            while ((linea = br.readLine()) != null) { // br.ready no suele llegar al final real en archivos grandes
                 respuesta.append(linea);
             }
         } catch (IOException ignored) {}
@@ -64,26 +63,20 @@ public class Main {
     static void imprimirDatosDefault(HttpURLConnection conn) {
         System.out.println("DATOS");
 
+        Gson gson = new Gson();
+
         StringBuilder respuesta = leerDatosConexion(conn);
+        Pokemon p = gson.fromJson(respuesta.toString(), Pokemon.class);
 
-        JSONObject json = new JSONObject(respuesta.toString());
+        System.out.println("\t Nº de Pokedex: " + p.name);
 
-        System.out.println("\t Nº de Pokedex: " + json.getInt("id"));
-
-        JSONArray tipos = json.getJSONArray("types");
-        JSONObject tipo1 = tipos.getJSONObject(0).getJSONObject("type");
-        JSONObject tipo2;
-
-        if (tipos.length() > 1) {
-            tipo2 = tipos.getJSONObject(1).getJSONObject("type");
-
-            System.out.println("\t Tipos: " + tipoEspañol(tipo1.getString("name")) + ", " + tipoEspañol(tipo2.getString("name")));
+        if (p.types.size() > 1) {
+            System.out.println("\t Tipos: " + tipoEspañol(p.types.get(0).type.name) + ", " + tipoEspañol(p.types.get(1).type.name));
         } else {
-            System.out.println("\t Tipo: " + tipoEspañol(tipo1.getString("name")));
+            System.out.println("\t Tipo: " + tipoEspañol(p.types.get(0).type.name));
         }
 
-        int peso = json.getInt("weight");
-        System.out.println("\t Peso: " + peso / 10f + " kg");
+        System.out.println("\t Peso: " + p.weight / 10f + " kg");
     }
 
     static void menu() {
