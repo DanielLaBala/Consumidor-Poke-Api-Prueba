@@ -77,6 +77,12 @@ public class Main {
         }
 
         System.out.println("\t Peso: " + p.weight / 10f + " kg");
+
+        System.out.println("\t Estadisticas base: ");
+
+        for (StatWrapper s : p.stats) {
+            System.out.println("\t\t" + s.stat.name.toUpperCase() + ": " + s.base_stat);
+        }
     }
 
     static void menu() {
