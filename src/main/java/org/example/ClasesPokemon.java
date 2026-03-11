@@ -4,7 +4,6 @@ import java.util.List;
 
 class Pokemon {
     int id;
-    String name;
     int weight;
     List<TypeWrapper> types;
 }

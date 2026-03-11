@@ -68,12 +68,12 @@ public class Main {
         StringBuilder respuesta = leerDatosConexion(conn);
         Pokemon p = gson.fromJson(respuesta.toString(), Pokemon.class);
 
-        System.out.println("\t Nº de Pokedex: " + p.name);
+        System.out.println("\t Nº de Pokedex: " + p.id);
 
         if (p.types.size() > 1) {
-            System.out.println("\t Tipos: " + tipoEspañol(p.types.get(0).type.name) + ", " + tipoEspañol(p.types.get(1).type.name));
+            System.out.println("\t Tipos: " + tipoEspañol(p.types.getFirst().type.name) + ", " + tipoEspañol(p.types.get(1).type.name));
         } else {
-            System.out.println("\t Tipo: " + tipoEspañol(p.types.get(0).type.name));
+            System.out.println("\t Tipo: " + tipoEspañol(p.types.getFirst().type.name));
         }
 
         System.out.println("\t Peso: " + p.weight / 10f + " kg");
