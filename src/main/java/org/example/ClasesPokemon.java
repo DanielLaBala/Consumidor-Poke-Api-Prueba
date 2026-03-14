@@ -7,6 +7,12 @@ class Pokemon {
     int weight;
     List<TypeWrapper> types;
     List<StatWrapper> stats;
+
+    PokemonSprites sprites;
+}
+
+class PokemonSprites {
+    String front_default;
 }
 
 class TypeWrapper { // Esto es porque tiene que reflejar la estructura real de lo que devuelve la api, como hay un array dentro de un array pues..

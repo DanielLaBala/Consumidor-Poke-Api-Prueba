@@ -2,6 +2,9 @@ package org.example;
 
 import com.google.gson.Gson;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -83,6 +86,15 @@ public class Main {
         for (StatWrapper s : p.stats) {
             System.out.println("\t\t" + s.stat.name.toUpperCase() + ": " + s.base_stat);
         }
+
+        try {
+            URL url = new URL(p.sprites.front_default);
+            BufferedImage i = ImageIO.read(url);
+
+            new Impresora(i, 30, false, true);
+        } catch (IOException e) {
+            System.out.println("No se pudo cargar la imagen");
+        }
     }
 
     static void menu() {
@@ -91,7 +103,7 @@ public class Main {
         while (true) {
             System.out.println("¿De que pokemon quieres información? (0 para salir)");
 
-            String pokemonNombre = sc.nextLine().toLowerCase();
+            String pokemonNombre = sc.nextLine().trim().toLowerCase();
 
             if (pokemonNombre.equals("0")) break;
 
